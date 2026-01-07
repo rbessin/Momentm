@@ -147,6 +147,51 @@ export default function HabitsPage() {
     }
   };
 
+  const toggleCompletion = async (habitId: string, date: Date) => {
+    const dateStr = date.toISOString().split("T")[0];
+
+    const existing = completions.find(
+      (completion) =>
+        completion.habit_id === habitId && completion.completed_date === dateStr
+    );
+
+    if (existing) {
+      // DELETE
+      const { error } = await supabase
+        .from("habit_completions")
+        .delete()
+        .eq("id", existing.id);
+
+      if (error) {
+        console.error("Error deleting completion:", error);
+        return;
+      }
+
+      setCompletions((prev) =>
+        prev.filter((completion) => completion.id !== existing.id)
+      );
+    } else {
+      //INSERT
+      const { data, error } = await supabase
+        .from("habit_completions")
+        .insert({
+          habit_id: habitId,
+          completed_date: dateStr,
+        })
+        .select()
+        .single();
+
+      if (error) {
+        console.error("Error adding completion:", error);
+        return;
+      }
+
+      if (data) {
+        setCompletions((prev) => [...prev, data]);
+      }
+    }
+  };
+
   // Load data on mount, currentDate or view change
   useEffect(() => {
     const loadData = async () => {
@@ -178,6 +223,7 @@ export default function HabitsPage() {
           completions={completions}
           dates={dates}
           isLoading={isLoading}
+          onToggleCompletion={toggleCompletion}
         />
       </div>
     </div>

@@ -6,10 +6,10 @@ export default function HabitsGrid(props: {
   completions: Completion[];
   dates: Date[];
   isLoading: boolean;
+  onToggleCompletion: (habitId: string, date: Date) => void;
 }) {
   const handleHabitClick = (habit: Habit, date: Date) => {
-    console.log(habit.name);
-    console.log(date);
+    props.onToggleCompletion(habit.id, date);
   };
 
   return (
