@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { createClient } from "@/app/lib/supabase/client";
 import HabitsHeader from "../components/habits/HabitsHeader";
 import HabitsGrid from "../components/habits/HabitsGrid";
+import HabitsModal from "../components/habits/HabitsModal";
 import { Habit, Completion } from "../lib/types";
 
 export default function HabitsPage() {
@@ -19,6 +20,7 @@ export default function HabitsPage() {
   }>({ start: null, end: null });
   const [currentDate, setCurrentDate] = useState(new Date());
   const [isLoading, setIsLoading] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Calculate date range based on view
   const getDateRange = () => {
@@ -192,6 +194,10 @@ export default function HabitsPage() {
     }
   };
 
+  const openAddHabitModal = () => {
+    setIsModalOpen(true);
+  };
+
   // Load data on mount, currentDate or view change
   useEffect(() => {
     const loadData = async () => {
@@ -215,6 +221,7 @@ export default function HabitsPage() {
           getPreviousDateRange={getPreviousDateRange}
           getNextDateRange={getNextDateRange}
           dates={dates}
+          onAddHabit={openAddHabitModal}
         />
 
         {/* Grid Container */}
@@ -225,6 +232,15 @@ export default function HabitsPage() {
           isLoading={isLoading}
           onToggleCompletion={toggleCompletion}
         />
+
+        {/* Modal */}
+        {isModalOpen && (
+          <HabitsModal
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+            onSave={saveNewHabit} // You'll create this function next
+          />
+        )}
       </div>
     </div>
   );

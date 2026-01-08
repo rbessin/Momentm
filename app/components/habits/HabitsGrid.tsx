@@ -12,6 +12,15 @@ export default function HabitsGrid(props: {
     props.onToggleCompletion(habit.id, date);
   };
 
+  const isToday = (date: Date) => {
+    const today = new Date();
+    return (
+      date.getDate() === today.getDate() &&
+      date.getMonth() === today.getMonth() &&
+      date.getFullYear() === today.getFullYear()
+    );
+  };
+
   return (
     <section className="flex bg-white rounded-xl shadow-md p-4 mb-6">
       {props.isLoading ? (
@@ -35,7 +44,9 @@ export default function HabitsGrid(props: {
             {props.dates.map((date) => (
               <div
                 key={date.toISOString()}
-                className="font-semibold p-2 border-b text-center sticky top-0 bg-gray-100 z-10"
+                className={`font-semibold p-2 border-b text-center sticky top-0 z-10 ${
+                  isToday(date) ? "bg-indigo-100" : "bg-gray-100"
+                }`}
               >
                 {date.getDate()}
               </div>
@@ -52,15 +63,24 @@ export default function HabitsGrid(props: {
                       comp.habit_id === habit.id &&
                       comp.completed_date === dateStr
                   );
-                  return (
-                    <button
-                      key={dateStr}
-                      onClick={() => handleHabitClick(habit, date)}
-                      className={`p-2 border-b text-center hover:opacity-60 ${
-                        completed ? "bg-green-200" : "bg-red-200"
-                      }`}
-                    ></button>
-                  );
+                  if (date > new Date()) {
+                    return (
+                      <div
+                        key={dateStr}
+                        className={"p-2 border-b text-center bg-gray-200"}
+                      ></div>
+                    );
+                  } else {
+                    return (
+                      <button
+                        key={dateStr}
+                        onClick={() => handleHabitClick(habit, date)}
+                        className={`p-2 border-b text-center hover:opacity-60 ${
+                          completed ? "bg-green-200" : "bg-red-200"
+                        }`}
+                      ></button>
+                    );
+                  }
                 })}
               </React.Fragment>
             ))}
