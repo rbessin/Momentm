@@ -8,7 +8,6 @@ export default function HabitsHeader(props: {
   getPreviousDateRange: () => Date;
   getNextDateRange: () => Date;
   dates?: Date[];
-  onAddHabit: () => void;
 }) {
   const {
     view,
@@ -18,23 +17,22 @@ export default function HabitsHeader(props: {
     getPreviousDateRange,
     getNextDateRange,
     dates,
-    onAddHabit,
   } = props;
 
   return (
-    <div className="flex flex-col bg-white rounded-xl shadow-md p-4 md:flex-row md:items-center md:justify-between mb-6">
-      <h1 className="text-3xl text-indigo-500 font-bold mb-4 md:mb-0">
+    <div className="flex flex-col bg-stone-50 rounded-lg shadow-sm border border-stone-200 p-3 md:flex-row md:items-center md:justify-between mb-4">
+      <h1 className="text-xl text-emerald-700 font-semibold mb-3 md:mb-0">
         Habits
       </h1>
-      <div className="flex items-center space-x-4">
+      <div className="flex items-center space-x-3">
         <div className="flex items-center space-x-2">
           <button
             onClick={() => setCurrentDate(getPreviousDateRange())}
-            className="px-3 py-1 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+            className="p-1.5 bg-emerald-600 text-white rounded-md hover:bg-emerald-700 transition-colors"
           >
-            <ArrowLeft />
+            <ArrowLeft size={16} />
           </button>
-          <span className="text-gray-700">
+          <span className="text-sm text-stone-700 font-medium">
             {dates && dates.length > 0
               ? `${dates[0].toLocaleDateString(undefined, {
                   month: "short",
@@ -50,34 +48,31 @@ export default function HabitsHeader(props: {
           </span>
           <button
             onClick={() => setCurrentDate(getNextDateRange())}
-            className="px-3 py-1 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+            className="p-1.5 bg-emerald-600 text-white rounded-md hover:bg-emerald-700 transition-colors"
           >
-            <ArrowRight />
+            <ArrowRight size={16} />
           </button>
         </div>
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-1.5">
           <button
             onClick={() => setView("week")}
-            className={`px-3 py-1 rounded-lg hover:bg-blue-500 ${
-              view === "week" ? "bg-blue-700 font-semibold" : "bg-blue-300"
+            className={`px-2.5 py-1 text-sm rounded-md transition-colors ${
+              view === "week"
+                ? "bg-emerald-600 text-white font-medium"
+                : "bg-stone-200 text-stone-700 hover:bg-stone-300"
             }`}
           >
             Week
           </button>
           <button
             onClick={() => setView("month")}
-            className={`px-3 py-1 rounded-lg hover:bg-blue-500 ${
-              view === "month" ? "bg-blue-700 font-semibold" : "bg-blue-300"
+            className={`px-2.5 py-1 text-sm rounded-md transition-colors ${
+              view === "month"
+                ? "bg-emerald-600 text-white font-medium"
+                : "bg-stone-200 text-stone-700 hover:bg-stone-300"
             }`}
           >
             Month
-          </button>
-          <button
-            onClick={() => onAddHabit()}
-            className="flex space-x-2 px-3 py-1 rounded-lg hover:bg-blue-500 bg-blue-700 font-semibold"
-          >
-            <CalendarPlus />
-            <p>Add Habit</p>
           </button>
         </div>
       </div>
