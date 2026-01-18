@@ -6,7 +6,6 @@ import { Completion } from "@/app/lib/completion-types";
 import {
   getTotalCountForDate,
   isFullyCompleted,
-  getCompletionProgress,
 } from "@/app/lib/completion-utils";
 
 interface CompletionCellProps {
@@ -37,7 +36,7 @@ function SimpleCompletionCell({
   return (
     <button
       onClick={() => onToggle(habit.id, date, !completed)}
-      className={`w-24 h-10 rounded-md transition-all ${
+      className={`w-10 h-10 rounded-md transition-all ${
         completed
           ? "bg-emerald-500 text-white hover:bg-emerald-600"
           : "bg-stone-200 text-stone-400 hover:bg-stone-300"
@@ -84,8 +83,8 @@ function CountCompletionCell({
           completed
             ? "bg-emerald-500 text-white"
             : currentCount > 0
-            ? "bg-amber-400 text-white"
-            : "bg-stone-200 text-stone-600"
+              ? "bg-amber-400 text-white"
+              : "bg-stone-200 text-stone-600"
         }`}
       >
         <span className="text-sm font-semibold">{currentCount}</span>

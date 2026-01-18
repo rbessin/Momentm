@@ -85,28 +85,6 @@ export function calculateStreak(
   return streak;
 }
 
-export function calculateCompletionRate(
-  habit: Habit,
-  completions: Completion[],
-  startDate: Date,
-  endDate: Date
-): number {
-  const activeDates = getActiveDatesInRange(
-    habit,
-    startDate,
-    endDate,
-    completions.map((c) => ({ date: new Date(c.completed_date) }))
-  );
-
-  if (activeDates.length === 0) return 0;
-
-  const completedDates = activeDates.filter((date) =>
-    isFullyCompleted(habit, completions, date)
-  );
-
-  return completedDates.length / activeDates.length;
-}
-
 export function getHabitStatistics(
   habit: Habit,
   completions: Completion[],

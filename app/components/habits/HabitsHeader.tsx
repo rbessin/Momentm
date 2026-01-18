@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight, CalendarPlus } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
 export default function HabitsHeader(props: {
   view: "week" | "month";
@@ -32,7 +32,7 @@ export default function HabitsHeader(props: {
           >
             <ArrowLeft size={16} />
           </button>
-          <span className="text-sm text-stone-700 font-medium">
+          <span className="text-sm text-stone-700 font-medium min-w-[140px] text-center">
             {dates && dates.length > 0
               ? `${dates[0].toLocaleDateString(undefined, {
                   month: "short",
@@ -53,6 +53,12 @@ export default function HabitsHeader(props: {
             <ArrowRight size={16} />
           </button>
         </div>
+        <button
+          onClick={() => setCurrentDate(new Date())}
+          className="px-3 py-1.5 text-sm bg-blue-600 text-white hover:bg-blue-700 rounded-md transition-colors"
+        >
+          Today
+        </button>
         <div className="flex items-center space-x-1.5">
           <button
             onClick={() => setView("week")}

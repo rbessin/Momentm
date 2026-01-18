@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import { AuthProvider } from "./contexts/AuthContext";
 import Sidebar from "./components/navigation/Sidebar";
 
@@ -15,24 +18,30 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Momentm",
-  description: "Start gaining momentum now.",
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
+
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <AuthProvider>
-          <Sidebar />
-          <main className="ml-64 min-h-screen">{children}</main>
+          <Sidebar
+            isExpanded={isSidebarExpanded}
+            setIsExpanded={setIsSidebarExpanded}
+          />
+          <main
+            className={`min-h-screen transition-all duration-300 ${
+              isSidebarExpanded ? "ml-64" : "ml-16"
+            }`}
+          >
+            {children}
+          </main>
         </AuthProvider>
       </body>
     </html>
